@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Shopper | B C Williams - Dev</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="top-bar topbar-main-margin align-center">
+        <a href="/" class="brand-header-text">Recipe Shopper</a>
+    </div>
+    <div class="title-bar" data-responsive-toggle="login-menu" data-hide-for="medium">
+        <div class="title-bar-left">
+            <span class="title-bar-title">Simplify your cooking!</span>
+        </div>
+        <div class="title-bar-right">
+            <button class="menu-icon" type="button" data-toggle="login-menu"></button>
+            <span class="title-bar-title">Menu</span>
+        </div>
+    </div>
+    <div class="top-bar" id="login-menu">
+        <div class="top-bar-right">
+            <ul class="dropdown menu align-right" data-dropdown-menu>
+                <li><a data-open="login_modal">Sign In</a></li>
+                <li><a data-open="registration_modal">Sign Up</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <div class="grid-container margin-horizontal-1">
+            <img src="{{ url_for('static', filename='/assets/images/homepage_header.jpg') }}" alt="shopping list on cookbook">
+            <p id="hp-welcome">Hello Chef! Welcome to Recipe Shopper. Our aim is to take the hassle out of meal planning and grocery shopping. This app will help you seemlessly organize your weekly meal plan and create a unified shopping list that combines same ingredients from different recipes into one line item organized by grocery department. Come on in and have a look. We expect you'll want to stay for dinner!</p>
+            <div class="grid-x align-spaced">
+                <div class="col">
+                    <!-- Button trigger login modal -->
+                    <button class="button fixed-button" data-open="login_modal">Login</button>
+                </div>
+                <div class="col">
+                    <!-- Button trigger register modal -->
+                    <button class="button fixed-button" data-open="registration_modal">Register</button>
+                </div>
+            </div>
+
+            <!-- Login / Reg error messages -->
+            {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+            <p class="flash"><strong>{{message}}</strong></p>
+            {% endfor %}
+            {% endwith %}
+
+        </div>
+    </main>
+
+    <div class="reveal modals" id="registration_modal" data-reveal>
+        <h1 class="text-center brand-header-text">Register</h1>
+        <form class="margin-vertical-2" action="/register" method="POST">
+            <div class="input-group">
+                <input name="first_name" class="input-group-field" type="text" placeholder="First Name">
+            </div>
+            <div class="input-group">
+                <input name="last_name" class="input-group-field" type="text" placeholder="Last Name">
+            </div>
+            <div class="input-group">
+                <input name="email" class="input-group-field" type="text" placeholder="eMail Address">
+            </div>
+            <div class="input-group">
+                <input name="password" class="input-group-field" type="password" placeholder="Password">
+            </div>
+            <div class="input-group">
+                <input name="confirm_password" class="input-group-field" type="password" placeholder="Confirm Password">
+            </div>
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+                <div>
+                    <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="grid-x align-center">
+                <input type="submit" class="align-center button fixed-button" value="Sign up">
+            </div>
+        </form>
+    </div>
+    <div class="reveal modals" id="login_modal" data-reveal>
+        <h1 class="text-center brand-header-text">Login</h1>
+        <form class="margin-vertical-2" action="/login" method="POST">
+            <div class="input-group">
+                <input name="email" class="input-group-field" type="text" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <input name="password" class="input-group-field" type="password" placeholder="Password">
+            </div>
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+                <div>
+                    <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="grid-x align-center">
+                <input type="submit" class="button fixed-button" value="Log in">
+            </div>
+        </form>
+    </div>
+
+
+    <script src="{{url_for('static', filename='/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='/js/foundation.min.js') }}"></script>
+
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+
+</html>
