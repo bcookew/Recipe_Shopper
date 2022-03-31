@@ -3,6 +3,7 @@ from flask_app import app
 from flask_app.models import user_mod
 from flask_bcrypt import Bcrypt
 from flask_app.config.validator import Logged_in
+import datetime
 bcrypt = Bcrypt(app)
 
 #----------------------------------
@@ -12,9 +13,6 @@ bcrypt = Bcrypt(app)
 @app.route('/')
 def homepage():
     return render_template('homepage.html')
-
-
-
 
 #----------------------------------
 # ------------------------------------  Register Process
@@ -39,7 +37,7 @@ def registration():
 
     user_id = user_mod.User.add_user(data)
     session["user_id"] = user_id
-    return redirect('/paintings')
+    return redirect('/dashboard')
 
 #----------------------------------
 # ------------------------------------  Login Process
@@ -66,22 +64,32 @@ def login():
         flash('Invalid Email or Password!')
         return redirect('/')
 
-    session['user_id'] = user.id
+    session['user_id'], session['user_first_name'] = user.id, user.first_name
+
     
     ####################  if login success, redir to dashboard   ####################
-    return redirect('/paintings')
+    return redirect('/dashboard')
 
 #----------------------------------
 # ------------------------------------  User Profile
 #----------------------------------
 
-@app.route('/paintings')
+@app.route('/dashboard')
 def load_profile():
     if Logged_in.checker():
-        data = {"id": session["user_id"]}
-        user = user_mod.User.get_user(data)
-        paintings = painting_mod.Painting.get_paintings_with_artists()
-        return render_template('dashboard.html', user = user, paintings = paintings)
+        date = (datetime.datetime.now() - datetime.timedelta(days=datetime.datetime.now().weekday() % 7)).strftime('%d %b %y')
+        return render_template('dashboard.html', date = date)
+    else:
+        return redirect('/')
+
+#----------------------------------
+# ------------------------------------  Settings Page
+#----------------------------------
+
+@app.route('/settings')
+def settings():
+    if Logged_in.checker():
+        return render_template('settings.html')
     else:
         return redirect('/')
 

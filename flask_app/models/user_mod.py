@@ -3,7 +3,7 @@ from flask import flash
 from flask_app.config.validator import Email, Text_Field, Password
 
 class User:
-    db = "" # Schema name here
+    db = "recipe_shopper_schema" # Schema name here
 
     def __init__(self, data): # layout instance attributes according to table column header
         self.id = data['id']
@@ -16,45 +16,6 @@ class User:
     
 
 ############# Class Methods for interacting with the database #############
-
-#---------------------------------
-# ----------------------------------- Get All Users
-# --------------------------------
-
-    @classmethod 
-    def get_all_users(cls):
-        query =  "SELECT * FROM users;"
-        returnedData = MySQLConnection(cls.db).query_db(query)
-        user_instances = [cls(row) for row in returnedData]
-        return user_instances
-
-#---------------------------------
-# ----------------------------------- Get User
-# --------------------------------
-
-    @classmethod 
-    def get_user(cls, data):
-        query =  "SELECT * FROM users WHERE id = %(id)s;"
-        returnedData = MySQLConnection(cls.db).query_db(query, data)
-        user_instance = cls(returnedData[0])
-        return user_instance
-
-#---------------------------------
-# ----------------------------------- Get user with associated
-# --------------------------------
-
-    @classmethod 
-    def get_user_with_associated(cls, data):
-        query =  """SELECT * 
-                    FROM users 
-                    JOIN users_has_associated
-                    ON users.id = users_has_associated.users_id
-                    JOIN associated
-                    ON users_has_associated.associated_id = associated.id
-                    WHERE id = %(id)s;"""
-        returnedData = MySQLConnection(cls.db).query_db(query, data)
-        user_instance = cls(returnedData[0])
-        return user_instance
 
 #---------------------------------
 # ----------------------------------- Add User
@@ -72,6 +33,28 @@ class User:
         return returned
 
 #---------------------------------
+# ----------------------------------- Get All Users
+# --------------------------------
+
+    @classmethod 
+    def get_all_users(cls):
+        query =  "SELECT * FROM users;"
+        returnedData = MySQLConnection(cls.db).query_db(query)
+        user_instances = [cls(row) for row in returnedData]
+        return user_instances
+
+#---------------------------------
+# ----------------------------------- Get User by ID
+# --------------------------------
+
+    @classmethod 
+    def get_user(cls, data):
+        query =  "SELECT * FROM users WHERE id = %(id)s;"
+        returnedData = MySQLConnection(cls.db).query_db(query, data)
+        user_instance = cls(returnedData[0])
+        return user_instance
+
+#---------------------------------
 # ----------------------------------- Get User by Email
 # --------------------------------
 
@@ -82,6 +65,23 @@ class User:
         returnedData = MySQLConnection(cls.db).query_db(query, data)
         if len(returnedData) < 1:
             return False
+        user_instance = cls(returnedData[0])
+        return user_instance
+
+#---------------------------------
+# ----------------------------------- Get user with associated
+# --------------------------------
+
+    @classmethod 
+    def get_user_with_associated(cls, data):
+        query =  """SELECT * 
+                    FROM users 
+                    JOIN users_has_associated
+                    ON users.id = users_has_associated.users_id
+                    JOIN associated
+                    ON users_has_associated.associated_id = associated.id
+                    WHERE id = %(id)s;"""
+        returnedData = MySQLConnection(cls.db).query_db(query, data)
         user_instance = cls(returnedData[0])
         return user_instance
 
@@ -131,4 +131,3 @@ class User:
         else:   # Check if email and password match a registered user
             return User.get_user_by_email(data) #search user by submitted email address
             
-   

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Shopper | B C Williams - Dev</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://kit.fontawesome.com/72cf54f64d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="top-bar topbar-main-margin align-center bottom-border-shadow">
+        <a href="/" class="brand-header-text">Recipe Shopper</a>
+    </div>
+    <!-- Menu bar / greeting mobile -->
+    <div class="title-bar" data-responsive-toggle="dashboard-menu" data-hide-for="medium">
+        <div class="title-bar-left">
+            <span class="title-bar-title">Go Shop!</span>
+        </div>
+        <div class="title-bar-right">
+            <button class="menu-icon" type="button" data-toggle="dashboard-menu"></button>
+            <span class="title-bar-title">Menu</span>
+        </div>
+    </div>
+    <div class="top-bar bottom-border-shadow padding-horizontal-2" id="dashboard-menu">
+        <div class="title-bar-left show-for-medium">
+            <span class="title-bar-title">Welcome, {{ session['user_first_name'] }}!</span>
+        </div>
+        <div class="top-bar-right">
+            <ul class="dropdown menu align-right" data-dropdown-menu>
+                <li><a data-open="add_recipe_modal">New Recipe</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/logout">Logoff</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <div class="grid-x grid-padding-x align-justify align-middle" id="recipe_book_header">
+            <div class="cell medium-3 page-header-text">Recipe Book</div>
+            <div class="cell medium-2 flex-container">
+
+                <select id='disp_category' name="category">
+                    <option value="all">All Categories</option>
+                    {% if categories %}
+                    {% for category in categories %}
+                    <option value="{{category.id}}">{{category.name}}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+        </div>
+        <div class="grid-container">
+            <div id="recipe_box" class="grid-x grid-margin-x grid-padding-y medium-up-4 large-up-5">
+
+                {% if recipes %}
+                {% for recipe in recipes %}
+                <div class="cell">
+                    <!-- Weekly Plan Column Body -->
+                    <div class="card">
+                        <input type='hidden' value='{{recipe.id}}'>
+                        <div class="card-section">
+                            <img src="{{ url_for('static', filename='assets/images/food_placeholder.jpg') }}">
+                        </div>
+                        <div class="card-section padding-top-0">
+                            <div class="grid-x align-center">
+                                <span class="recipe-card">{{recipe.name}}</span>
+                            </div>
+                            <div class="grid-x align-center">
+                                <span class="recipe-card">Cooks in: {{recipe.cook_time}}min</span>
+                            </div>
+                            <div class="grid-x align-center">
+                                <span class="recipe-card">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <div class="large reveal modals" id="recipe_modal" data-reveal>
+        <div class="grid-container">
+            <!------------ modal header ------------>
+            <div class="grid-x align-center">
+                <span class="brand-header-text">Your Recipe</span>
+            </div>
+            <hr>
+            <form id="add-recipe-form">
+                <div class="grid-x grid-padding-x">
+                    <!------------ left side of modal ------------>
+                    <div class="cell medium-3">
+                        <img class="thumbnail" src="{{ url_for('static', filename='assets/images/food_placeholder.jpg') }}">
+                        <hr>
+                        <!------------ input ingredients ------------>
+                        <div class="grid-x grid-padding-x align-right">
+                            <div class="cell">
+                                <span class="title-bar-title">Ingredients:</span>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="cell">
+                                <table id="ingredients">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr class="hide-for-medium">
+                    </div>
+                    <!------------ right side of modal ------------>
+                    <div class="cell medium-9">
+                        <div class="grid-x grid-padding-x">
+                            <!------------ Recipe name / cook time / serves / categories ------------>
+                            <div class="cell large-auto">
+                                <span class="title-bar-title">Recipe Name</span>
+                            </div>
+                            <div class="cell large-auto">
+                                <span class="title-bar-title">Cook Time</span>
+                            </div>
+                            <div class="cell large-auto">
+                                <span class="title-bar-title">Serves</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <!------------ Instruction Steps Accordian ------------>
+                        <div class="grid-x">
+                            <span class="title-bar-title">Instructions:</span>
+                        </div>
+                        <div class="grid-x">
+                            <div class="cell">
+                                <ul class="accordion" id="steps_accordion" data-accordion>
+                                    <li class="accordion-item is-active" data-accordion-item>
+                                        <a class="accordion-title accordion-title-font">Mise en place</a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <span class="h4">Mise en place placeholder text</span>
+                                        </div>
+                                    </li>
+                                    {% for i in range(1,5) %}
+                                    <li class="accordion-item" data-accordion-item>
+                                        <a class="accordion-title accordion-title-font">Step {{i}}</a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <span class="h4">Step placeholder text</span>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                    <li class="accordion-item" data-accordion-item>
+                                        <a class="accordion-title accordion-title-font">Comments</a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <span class="h4" id="comment_box">User comments go here</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    </div>
+    <!------------ Add Recipe Modal ------------>
+    <div class="large reveal modals" id="add_recipe_modal" data-reveal>
+        <div class="grid-container">
+            <!------------ modal header ------------>
+            <div class="grid-x align-center">
+                <span class="brand-header-text">New Recipe</span>
+            </div>
+            <hr>
+            <form id="add-recipe-form">
+                <div class="grid-x grid-padding-x">
+                    <!------------ left side of modal ------------>
+                    <div class="cell medium-3">
+                        <img class="thumbnail"
+                            src="{{ url_for('static', filename='assets/images/food_placeholder.jpg') }}">
+                        <hr>
+                        <!------------ input ingredients ------------>
+                        <div class="grid-x grid-padding-x">
+                            <label for="department">Department:</label>
+                            <select id="department" name="department">
+                                {% if departments %}
+                                {% for department in departments %}
+                                <option value="{{department.id}}">{{department.name}}</option>
+                                {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="grid-x grid-padding-x align-right">
+                            <div class="cell medium-4">
+                                <label for="qty">Quantity:</label>
+                                <input id="qty" type="number" name="qty" min="1" value="1">
+                            </div>
+                            <div class="cell medium-7">
+                                <label for="measure">Measure:</label>
+                                <select id="measure" name="measure">
+                                    <option>milliliters</option>
+                                    <option>liters</option>
+                                    <option>grams</option>
+                                    <option>ounces</option>
+                                    <option>pounds</option>
+                                    <option>teaspoons</option>
+                                    <option>tablespoons</option>
+                                    <option>cups</option>
+                                    <option>fluid ounces</option>
+                                    <option>cups</option>
+                                    <option>pints</option>
+                                    <option>quarts</option>
+                                    <option>gallon</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x align-right align-middle">
+                            <div class="cell medium-12">
+                                <label for="ingredient">Ingredient:</label>
+                                <div class="input-group">
+                                    <input class="input-group-field" id="ingredient" type="text" name="ingredient"
+                                        placeholder="Ingredient">
+                                    <div class="input-group-button">
+                                        <button id="add-button" class="button add-button">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-x">
+                            <div class="cell">
+                                <table id="ingredient_list">
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr class="hide-for-medium">
+                    </div>
+                    <!------------ right side of modal ------------>
+                    <div class="cell medium-9">
+                        <div class="grid-x grid-padding-x">
+                            <!------------ Recipe name / cook time / serves / categories ------------>
+                            <div class="cell medium-6">
+                                <label for="name">Recipe Name:</label>
+                                <input type="text" name="name" placeholder="Recipe Name">
+                                <div class="grid-x grid-padding-x">
+                                    <div class="cell medium-4">
+                                        <label for="cook_time">Cook Time:</label>
+                                        <input type="number" name="cook_time" placeholder="Minutes">
+                                    </div>
+                                    <div class="cell medium-3">
+                                        <label for="serves">Serves:</label>
+                                        <input type="number" name="serves" min="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cell medium-6">
+                                <label for="categories">Categories:</label>
+                                <select id="category" name="category" multiple>
+                                    {% if categories %}
+                                    {% for category in categories %}
+                                    <option value="{{category.id}}">{{category.name}}</option>
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <!------------ Instruction Steps Accordian ------------>
+                        <span class="title-bar-title">Instructions:</span>
+                        <div class="grid-x">
+                            <div class="cell">
+                                <ul class="accordion" id="steps_accordion" data-accordion>
+                                    <li class="accordion-item is-active" data-accordion-item>
+                                        <a class="accordion-title accordion-title-font">Mise en place</a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <input type="hidden" name="step_name" value="Mise en place">
+                                            <textarea name="step_0" cols="30" rows="10"
+                                                placeholder="Enter any prep that can be done in advance."></textarea>
+                                        </div>
+                                    </li>
+                                    {% for i in range(1,5) %}
+                                    <li class="accordion-item" data-accordion-item>
+                                        <a class="accordion-title accordion-title-font">Step {{i}}</a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <input type="hidden" name="step_name_{{i}}" value="Step {{i}}">
+                                            <textarea name="step_{{i}}" cols="30" rows="10"
+                                                placeholder="Enter details"></textarea>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                    <li class="accordion-item" data-accordion-item>
+                                        <a class="accordion-title accordion-title-font">Comments</a>
+                                        <div class="accordion-content" data-tab-content>
+                                            <textarea name="comments" cols="30" rows="10"
+                                                placeholder="Enter notes or things to remember."></textarea>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="grid-x align-center">
+                            <div class="cell small-2">
+                                <button id="save-recipe-button">Save Recipe</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <script src="{{url_for('static', filename='/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='/js/foundation.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='/js/script.js') }}"></script>
+
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+
+</html>

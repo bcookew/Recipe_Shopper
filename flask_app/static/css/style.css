@@ -711,7 +711,7 @@ a img {
 
 hr {
   clear: both;
-  max-width: 75rem;
+  max-width: 97.5rem;
   height: 0;
   margin: 1.25rem auto;
   border-top: 0;
@@ -997,7 +997,7 @@ h3 {
 .grid-container {
   padding-right: 0.625rem;
   padding-left: 0.625rem;
-  max-width: 75rem;
+  max-width: 97.5rem;
   margin-left: auto;
   margin-right: auto;
 }
@@ -4366,7 +4366,7 @@ table.hover:not(.unstriped) tr:nth-of-type(even):hover {
 
 .accordion {
   margin-left: 0;
-  background: white;
+  background: #D03324;
   list-style-type: none;
 }
 .accordion[disabled] .accordion-title {
@@ -4386,16 +4386,16 @@ table.hover:not(.unstriped) tr:nth-of-type(even):hover {
   padding: 1.25rem 1rem;
   border: 1px solid #e6e6e6;
   border-bottom: 0;
-  font-size: 0.75rem;
+  font-size: 1.125rem;
   line-height: 1;
-  color: #1779ba;
+  color: white;
 }
 :last-child:not(.is-active) > .accordion-title {
   border-bottom: 1px solid #e6e6e6;
   border-radius: 0 0 0 0;
 }
 .accordion-title:hover, .accordion-title:focus {
-  background-color: #e6e6e6;
+  background-color: #E05A4E;
 }
 .accordion-title::before {
   position: absolute;
@@ -4413,7 +4413,7 @@ table.hover:not(.unstriped) tr:nth-of-type(even):hover {
   padding: 1rem;
   border: 1px solid #e6e6e6;
   border-bottom: 0;
-  background-color: white;
+  background-color: #EFE5D2;
   color: #0a0a0a;
 }
 :last-child > .accordion-content:last-child {
@@ -5879,7 +5879,7 @@ html.is-reveal-open body {
 @media print, screen and (min-width: 40em) {
   .reveal {
     width: 600px;
-    max-width: 75rem;
+    max-width: 97.5rem;
   }
 }
 .reveal.collapse {
@@ -5888,19 +5888,19 @@ html.is-reveal-open body {
 @media print, screen and (min-width: 40em) {
   .reveal.tiny {
     width: 30%;
-    max-width: 75rem;
+    max-width: 97.5rem;
   }
 }
 @media print, screen and (min-width: 40em) {
   .reveal.small {
     width: 50%;
-    max-width: 75rem;
+    max-width: 97.5rem;
   }
 }
 @media print, screen and (min-width: 40em) {
   .reveal.large {
     width: 90%;
-    max-width: 75rem;
+    max-width: 97.5rem;
   }
 }
 .reveal.full {
@@ -7108,7 +7108,7 @@ ol.list-upper-roman {
   padding-bottom: 3rem !important;
 }
 
-.brand-header-text {
+.brand-header-text, .column-header-text {
   font-family: "Caveat", cursive;
   font-size: 3rem;
   font-style: italic;
@@ -7118,13 +7118,26 @@ ol.list-upper-roman {
   padding: 0;
 }
 
+.column-header-text {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.page-header-text {
+  font-family: "Caveat", cursive;
+  font-size: 2.5rem;
+  font-style: italic;
+  font-weight: 600;
+  color: white;
+}
+
 .title-bar-title {
   font-size: 1.5rem;
   font-weight: 600;
   font-family: "Caveat", cursive;
 }
 
-.fixed-button {
+.fixed-button, #save-recipe-button {
   width: 6rem;
   background-color: #D03324;
   color: white;
@@ -7134,6 +7147,18 @@ ol.list-upper-roman {
   padding: 0.5rem 0;
 }
 
+#save-recipe-button {
+  width: fit-content;
+  padding: 0.75rem 1rem;
+}
+
+#add-button {
+  background-color: #D03324;
+  color: white;
+  font-family: "Caveat", cursive;
+  font-size: 1.5rem;
+}
+
 #hp-welcome {
   text-indent: 2rem;
   padding: 0.25rem;
@@ -7141,6 +7166,34 @@ ol.list-upper-roman {
 
 .modals {
   background-color: #EFE5D2;
+}
+
+.date-scroll {
+  font-size: 1.75em;
+  font-weight: 600;
+  font-family: "Caveat", cursive;
+}
+
+.accordion-title-font:hover, .accordion-title-font:focus, .accordion-title-font:active {
+  color: white;
+  font-style: italic;
+}
+
+.bottom-border-shadow {
+  position: relative;
+  z-index: 1;
+  border: 1px solid lightgray;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+#recipe_book_header {
+  background-color: #D03324;
+}
+
+#recipe_book_header select {
+  margin: 0;
+  padding: 0px 5px;
+  height: fit-content;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Shopper | B C Williams - Dev</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon/favicon.ico') }}">
+    <script src="https://kit.fontawesome.com/72cf54f64d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="top-bar topbar-main-margin align-center">
+        <a href="/" class="brand-header-text">Recipe Shopper</a>
+    </div>
+    <div class="title-bar" data-responsive-toggle="login-menu" data-hide-for="medium">
+        <div class="title-bar-left">
+            <span class="title-bar-title">Settings</span>
+        </div>
+        <div class="title-bar-right">
+            <button class="menu-icon" type="button" data-toggle="login-menu"></button>
+            <span class="title-bar-title">Menu</span>
+        </div>
+    </div>
+    <div class="top-bar" id="login-menu">
+        <div class="top-bar-right">
+            <ul class="dropdown menu align-right" data-dropdown-menu>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/logout">Logoff</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        
+    </main>
+
+
+    <script src="{{url_for('static', filename='/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='/js/foundation.min.js') }}"></script>
+
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+
+</html>

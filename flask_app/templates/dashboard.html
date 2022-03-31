@@ -8,25 +8,32 @@
     <title>Recipe Shopper | B C Williams - Dev</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon/favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://kit.fontawesome.com/72cf54f64d.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="top-bar topbar-main-margin align-center">
+    <!-- Header -->
+    <div class="top-bar topbar-main-margin align-center bottom-border-shadow">
         <a href="/" class="brand-header-text">Recipe Shopper</a>
     </div>
-    <div class="title-bar" data-responsive-toggle="login-menu" data-hide-for="medium">
+    <!-- Menu bar / greeting mobile -->
+    <div class="title-bar" data-responsive-toggle="dashboard-menu" data-hide-for="medium">
         <div class="title-bar-left">
             <span class="title-bar-title">Go Shop!</span>
         </div>
         <div class="title-bar-right">
-            <button class="menu-icon" type="button" data-toggle="login-menu"></button>
+            <button class="menu-icon" type="button" data-toggle="dashboard-menu"></button>
             <span class="title-bar-title">Menu</span>
         </div>
     </div>
-    <div class="top-bar" id="login-menu">
+    <div class="top-bar bottom-border-shadow padding-horizontal-2" id="dashboard-menu">
+        <div class="title-bar-left show-for-medium">
+            <span class="title-bar-title">Welcome, {{session['user_first_name']}}!</span>
+        </div>
         <div class="top-bar-right">
             <ul class="dropdown menu align-right" data-dropdown-menu>
-                <li><a data-open="add_item">Add item</a></li>
+                <li><a href="/recipes">Recipes</a></li>
+                <li><a href="/settings">Settings</a></li>
                 <li><a href="/logout">Logoff</a></li>
             </ul>
         </div>
@@ -34,45 +41,88 @@
 
     <main>
         <div class="grid-container">
-            <div class="grid-x align-spaced">
-                <div class="col">
-                    <!-- Button trigger login modal -->
-                    <button class="button fixed-button" data-open="login_modal">Login</button>
+            <div class="grid-x grid-margin-x">
+                <div class="cell medium-6 border">
+                    <!-- Column Header -->
+                    <div class="top-bar align-center">
+                        <h2 class="column-header-text">Weekly Plan</h2>
+                    </div>
+                    <!-- Week Scroller -->
+                    <div class="date-scroll">
+                        <div class="grid-x grid-padding-x grid-padding-y">
+                            <div class="cell small-2 text-left">
+                                <i class="fa-solid fa-lg fa-arrow-left-long"></i>
+                            </div>
+                            <div class="cell small-8 text-center">Week {{ date }}</div>
+                            <div class="cell small-2 text-right">
+                                <i class="fa-solid fa-lg fa-arrow-right-long"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Weekly Plan Column Body -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Dish</th>
+                                <th>Servings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if shopping_list %}
+                            {% for category in shopping_list %}
+                            <tr>
+                                <td>Content Goes Here</td>
+                                <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+                                <td>Content Goes Here</td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <td colspan="3">Weekly Plan Empty</td>
+                            {% endif %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col">
-                    <!-- Button trigger register modal -->
-                    <button class="button fixed-button" data-open="registration_modal">Register</button>
+                <div class="cell medium-6 border">
+                    <!-- Week Scroller -->
+                    <div class="top-bar align-center">
+                        <h2 class="column-header-text">Shopping List</h2>
+                    </div>
+                    <div class="date-scroll">
+                        <div class="grid-x grid-padding-x grid-padding-y">
+                            <div class="cell small-2 text-left">
+                                <i class="fa-solid fa-lg fa-arrow-left-long"></i>
+                            </div>
+                            <div class="cell small-8 text-center">Week {{ date }}</div>
+                            <div class="cell small-2 text-right">
+                                <i class="fa-solid fa-lg fa-arrow-right-long"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Shopping List Column Body -->
+                    <ul class="accordion" data-accordion>
+
+                        {% if shopping_list %}
+
+                        {% for category in shopping_list %}
+                        <li class="accordion-item is-active" data-accordion-item>
+                            <a class="accordion-title accordion-title-font">{{category.name}}</a>
+                            <div class="accordion-content" data-tab-content>
+                                <p>Panel 1. Lorem ipsum dolor</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                        {% else %}
+                        <div class="top-bar align-center">
+                            <h4>Shopping List Empty</h4>
+                        </div>
+                        {% endif %}
+                    </ul>
                 </div>
+
             </div>
-
-            <!-- Login / Reg error messages -->
-            {% with messages = get_flashed_messages() %}
-            {% for message in messages %}
-            <p class="flash"><strong>{{message}}</strong></p>
-            {% endfor %}
-            {% endwith %}
-
         </div>
     </main>
-
-    <div class="reveal modals" id="login_modal" data-reveal>
-        <h1 class="text-center brand-header-text">Add an item</h1>
-        <form class="margin-vertical-2" action="/add_item" method="POST">
-            <div class="input-group">
-                <input name="email" class="input-group-field" type="text" placeholder="Username">
-            </div>
-            <div class="input-group">
-                <input name="password" class="input-group-field" type="password" placeholder="Password">
-            </div>
-            <button class="close-button" data-close aria-label="Close modal" type="button">
-                <div>
-                    <span aria-hidden="true">&times;</span>
-            </button>
-            <div class="grid-x align-center">
-                <input type="submit" class="button fixed-button" value="Log in">
-            </div>
-        </form>
-    </div>
 
 
     <script src="{{url_for('static', filename='/js/jquery.min.js')}}"></script>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Shopper | B C Williams - Dev</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://kit.fontawesome.com/72cf54f64d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="top-bar topbar-main-margin align-center">
+        <a href="/" class="brand-header-text">Recipe Shopper</a>
+    </div>
+    <div class="title-bar" data-responsive-toggle="login-menu" data-hide-for="medium">
+        <div class="title-bar-left">
+            <span class="title-bar-title">Go Shop!</span>
+        </div>
+        <div class="title-bar-right">
+            <button class="menu-icon" type="button" data-toggle="login-menu"></button>
+            <span class="title-bar-title">Menu</span>
+        </div>
+    </div>
+    <div class="top-bar" id="login-menu">
+        <div class="top-bar-right">
+            <ul class="dropdown menu align-right" data-dropdown-menu>
+                <li><a data-open="add_item">Add item</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/logout">Logoff</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="date-scroll">
+        <div class="grid-x grid-padding-x grid-padding-y">
+            <div class="cell small-2 text-left">
+                <i class="fa-solid fa-xl fa-arrow-left-long"></i>
+            </div>
+            <div class="cell small-8 text-center">Week {{ date }}</div>
+            <div class="cell small-2 text-right">
+                <i class="fa-solid fa-xl fa-arrow-right-long"></i>
+            </div>
+        </div>
+    </div>
+    <main>
+        <ul class="accordion" data-accordion>
+            {% if shopping_list %}
+            
+                    {% for category in shopping_list %}
+                    <li class="accordion-item is-active" data-accordion-item>
+                        <a class="accordion-title accordion-title-font">{{category.name}}</a>
+                        <div class="accordion-content" data-tab-content>
+                            <p>Panel 1. Lorem ipsum dolor</p>
+                        </div>
+                    </li>
+                    {% endfor %}
+            
+            {% endif %}
+        </ul>
+    </main>
+
+    <div class="reveal modals" id="add_item" data-reveal>
+        <h1 class="text-center brand-header-text">Add an item</h1>
+        <form class="margin-vertical-2" action="/add_item" method="POST">
+            <div class="grid-container">
+
+                <div class="input-group">
+                    <input name="name" class="input-group-field" type="text" placeholder="Ingredient / Item">
+                </div>
+                <div class="input-group">
+                    <input name="qty" class="input-group-field" type="number" min="1">
+                </div>
+                <label>Password
+                    <input type="password" aria-describedby="passwordHelpText">
+                </label>
+                <p class="help-text" id="passwordHelpText">Your password must have at least 10 characters, a number, and
+                    an Emoji.</p>
+                <button class="close-button" data-close aria-label="Close modal" type="button">
+                    <div>
+                        <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="grid-x align-center">
+                    <input type="submit" class="button fixed-button" value="Log in">
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="{{url_for('static', filename='/js/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='/js/foundation.min.js') }}"></script>
+
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+
+</html>

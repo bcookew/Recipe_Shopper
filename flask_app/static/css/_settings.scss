@@ -66,7 +66,7 @@
 // ---------
 
 $global-font-size: 100%;
-$global-width: rem-calc(1200);
+$global-width: rem-calc(1560);
 $global-lineheight: 1.5;
 $foundation-palette: (
   primary: #1779ba,
@@ -235,15 +235,15 @@ $input-error-font-weight: $global-weight-bold;
 // 7. Accordion
 // ------------
 
-$accordion-background: $white;
+$accordion-background: #D03324;
 $accordion-plusminus: true;
 $accordion-plus-content: '\002B';
 $accordion-minus-content: '\2013';
-$accordion-title-font-size: rem-calc(12);
-$accordion-item-color: $primary-color;
-$accordion-item-background-hover: $light-gray;
+$accordion-title-font-size: rem-calc(18);
+$accordion-item-color: $white;
+$accordion-item-background-hover: #E05A4E;
 $accordion-item-padding: 1.25rem 1rem;
-$accordion-content-background: $white;
+$accordion-content-background: #EFE5D2;
 $accordion-content-border: 1px solid $light-gray;
 $accordion-content-color: $body-font-color;
 $accordion-content-padding: 1rem;
