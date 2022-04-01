@@ -65,7 +65,7 @@
                     <div class="card">
                         <input type='hidden' value='{{recipe.id}}'>
                         <div class="card-section">
-                            <img src="{{ url_for('static', filename='assets/images/food_placeholder.jpg') }}">
+                            <img src="{{ url_for('static', filename='assets/images/food_placeholder.webp') }}">
                         </div>
                         <div class="card-section padding-top-0">
                             <div class="grid-x align-center">
@@ -88,19 +88,19 @@
         <div class="grid-container">
             <!------------ modal header ------------>
             <div class="grid-x align-justify">
-                <div class="cell medium-3">
+                <div class="cell medium-2">
                     <button id="delete_recipe" class="button fixed-button">Delete</button>
                 </div>
-                <div class="cell medium-3">
+                <div class="cell medium-8 text-center">
                     <span class="brand-header-text" id="recipe_name">Your Recipe</span>
                 </div>
-                <div class="cell medium-3"></div>
+                <div class="cell medium-2"></div>
             </div>
             <hr>
             <div class="grid-x grid-padding-x">
                 <!------------ left side of modal ------------>
                 <div class="cell medium-3">
-                    <img class="thumbnail" src="{{ url_for('static', filename='assets/images/food_placeholder.jpg') }}">
+                    <img class="thumbnail" src="{{ url_for('static', filename='assets/images/food_placeholder.webp') }}">
                     <hr>
                     <!------------ input ingredients ------------>
                     <div class="grid-x grid-padding-x align-right">
@@ -181,7 +181,7 @@
                     <!------------ left side of modal ------------>
                     <div class="cell medium-3">
                         <img class="thumbnail"
-                            src="{{ url_for('static', filename='assets/images/food_placeholder.jpg') }}">
+                            src="{{ url_for('static', filename='assets/images/food_placeholder.webp') }}">
                         <hr>
                         <!------------ input ingredients ------------>
                         <div class="grid-x grid-padding-x">

@@ -120,7 +120,7 @@ $(function(){
                             <div class=\"card\" data-open=\"recipe_modal\">
                                 <input type=\'hidden\' value=\'${value.id}\'>
                                 <div class=\"card-section\">
-                                    <img src=\"/static/assets/images/food_placeholder.jpg\">
+                                    <img src=\"/static/assets/images/food_placeholder.webp\">
                                 </div>
                                 <div class=\"card-section padding-top-0\">
                                     <div class=\"grid-x align-center\">
@@ -148,7 +148,7 @@ $(function(){
                             <div class=\"card\" data-open=\"recipe_modal\">
                                 <input type=\'hidden\' value=\'${value.id}\'>
                                 <div class=\"card-section\">
-                                    <img src=\"/static/assets/images/food_placeholder.jpg\">
+                                    <img src=\"/static/assets/images/food_placeholder.webp\">
                                 </div>
                                 <div class=\"card-section padding-top-0\">
                                     <div class=\"grid-x align-center\">
