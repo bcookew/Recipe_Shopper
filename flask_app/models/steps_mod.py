@@ -37,7 +37,7 @@ class Step:
                     WHERE
                     recipes_id = %(id)s"""
         returned_data = MySQLConnection(cls.db).query_db(query,data)
-        steps = {}
+        steps = []
         for i in range(len(returned_data)):
-            steps["step "+str(i)] = returned_data[i]
+            steps.append(returned_data[i])
         return steps

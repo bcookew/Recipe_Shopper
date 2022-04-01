@@ -68,3 +68,16 @@ class Recipe:
         returned_data = MySQLConnection(cls.db).query_db(query, data)
         recipe = {data['id']:returned_data[0]}
         return recipe
+
+#----------------------------------
+#-------------------------------------  Delete Recipe
+#----------------------------------
+
+    @classmethod
+    def delete_recipe(cls, data):
+        query =  """DELETE
+                    FROM recipes
+                    WHERE
+                    id = %(id)s"""
+        MySQLConnection(cls.db).query_db(query,data)
+        

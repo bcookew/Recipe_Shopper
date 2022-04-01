@@ -7131,10 +7131,14 @@ ol.list-upper-roman {
   color: white;
 }
 
-.title-bar-title {
+.title-bar-title, .recipe_header_text {
   font-size: 1.5rem;
   font-weight: 600;
   font-family: "Caveat", cursive;
+}
+
+.recipe_header_text {
+  font-size: 2rem;
 }
 
 .fixed-button, #save-recipe-button {
@@ -7194,6 +7198,11 @@ ol.list-upper-roman {
   margin: 0;
   padding: 0px 5px;
   height: fit-content;
+}
+
+.home_container {
+  margin: 3rem auto;
+  max-width: 600px;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -36,7 +36,7 @@ def registration():
     data['password'] = bcrypt.generate_password_hash(request.form['password'])
 
     user_id = user_mod.User.add_user(data)
-    session["user_id"] = user_id
+    session["user_id"], session["first_name"] = user_id, data["first_name"]
     return redirect('/dashboard')
 
 #----------------------------------

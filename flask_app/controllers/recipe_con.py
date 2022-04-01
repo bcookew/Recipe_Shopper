@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, session, flash
+from flask import render_template, request, redirect, session, flash, jsonify
 from flask_app import app
 from flask_app.models import categories_mod, recipes_mod, shop_items_mod, departments_mod, steps_mod
 from flask_app.config.validator import Logged_in
@@ -24,11 +24,10 @@ def recipe_book():
 @app.route('/get_recipe_by_id', methods=['POST'])
 def get_recipe_by_id():
     recipe = recipes_mod.Recipe.get_recipe_id_json(request.form)
-    recipe['steps'] = steps_mod.Step.get_steps(request.form)
-    recipe['ingredients'] = shop_items_mod.Item.get_ingredients_by_recipe(request.form)
-    js = json.dumps(recipe)
-    print(recipe)
-    return recipe
+    steps = steps_mod.Step.get_steps(request.form)
+    print(steps)
+    ingredients = shop_items_mod.Item.get_ingredients_by_recipe(request.form)
+    return jsonify({'recipe':recipe,'steps':steps,'ingredients':ingredients})
 
 #----------------------------------
 #-------------------------------------  Get recipes by category
@@ -53,6 +52,15 @@ def recipes_by_category():
     return category
     
 
+#----------------------------------
+#-------------------------------------  Delete Recipe
+#----------------------------------
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    recipes_mod.Recipe.delete_recipe(request.form)
+    return 'Deleted'
+
 
 #----------------------------------
 #-------------------------------------  Save new recipe
@@ -61,7 +69,7 @@ def recipes_by_category():
 @app.route('/add_recipe', methods=["POST"])
 def save_recipe():
     recipe = request.form
-
+    print(recipe)
     ####################  parse recipes info  ####################
     recipe_data = {
         "name" : recipe["name"],
@@ -85,12 +93,13 @@ def save_recipe():
     ####################  parse steps to list  ####################
     step_data = []
     counter = 0
-    while(f"step_{str(counter)}" in recipe and recipe[f"step_{str(counter)}"] != ""):
-        step_data.append({
-            "step_num": counter,
-            "details": recipe[f'step_{str(counter)}'],
-            "recipes_id" : recipe_id
-        })
+    while(f"step_{str(counter)}" in recipe):
+        if recipe[f"step_{str(counter)}"] != "":
+            step_data.append({
+                "step_num": counter,
+                "details": recipe[f'step_{str(counter)}'],
+                "recipes_id" : recipe_id
+            })
         counter += 1
     steps_mod.Step.add_steps(step_data)
     ####################  parse ingredients to list  ####################
@@ -103,7 +112,7 @@ def save_recipe():
         shop_items_mod.Item.add_item(item_data)
         item_id = shop_items_mod.Item.get_item_by_name(item_data)
         ingredient_data = {
-            "qty": float(recipe[f'ing_{str(counter)}_qty']),
+            "qty": int(recipe[f'ing_{str(counter)}_qty']),
             "measure": recipe[f'ing_{str(counter)}_measure'],
             "recipes_id": recipe_id,
             "shop_items_id": item_id.id

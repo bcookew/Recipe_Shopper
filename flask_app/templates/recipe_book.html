@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="grid-container">
-            <div id="recipe_box" class="grid-x grid-margin-x grid-padding-y medium-up-4 large-up-5">
+            <div id="recipe_box" class="grid-x grid-margin-x grid-padding-y medium-up-4 large-up-5 align-spaced">
 
                 {% if recipes %}
                 {% for recipe in recipes %}
@@ -74,14 +74,6 @@
                             <div class="grid-x align-center">
                                 <span class="recipe-card">Cooks in: {{recipe.cook_time}}min</span>
                             </div>
-                            <div class="grid-x align-center">
-                                <span class="recipe-card">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,86 +81,87 @@
                 {% endif %}
             </div>
         </div>
-        </div>
     </main>
-
+    <!-------------- View Recipe -------------->
     <div class="large reveal modals" id="recipe_modal" data-reveal>
+        <input type="hidden" id="view_recipe_id" name="view_recipe_id" value="">
         <div class="grid-container">
             <!------------ modal header ------------>
-            <div class="grid-x align-center">
-                <span class="brand-header-text">Your Recipe</span>
+            <div class="grid-x align-justify">
+                <div class="cell medium-3">
+                    <button id="delete_recipe" class="button fixed-button">Delete</button>
+                </div>
+                <div class="cell medium-3">
+                    <span class="brand-header-text" id="recipe_name">Your Recipe</span>
+                </div>
+                <div class="cell medium-3"></div>
             </div>
             <hr>
-            <form id="add-recipe-form">
-                <div class="grid-x grid-padding-x">
-                    <!------------ left side of modal ------------>
-                    <div class="cell medium-3">
-                        <img class="thumbnail" src="{{ url_for('static', filename='assets/images/food_placeholder.jpg') }}">
-                        <hr>
-                        <!------------ input ingredients ------------>
-                        <div class="grid-x grid-padding-x align-right">
-                            <div class="cell">
-                                <span class="title-bar-title">Ingredients:</span>
-                            </div>
+            <div class="grid-x grid-padding-x">
+                <!------------ left side of modal ------------>
+                <div class="cell medium-3">
+                    <img class="thumbnail" src="{{ url_for('static', filename='assets/images/food_placeholder.jpg') }}">
+                    <hr>
+                    <!------------ input ingredients ------------>
+                    <div class="grid-x grid-padding-x align-right">
+                        <div class="cell">
+                            <span class="recipe_header_text">Ingredients:</span>
                         </div>
-                        <div class="grid-x">
-                            <div class="cell">
-                                <table id="ingredients">
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <hr class="hide-for-medium">
                     </div>
-                    <!------------ right side of modal ------------>
-                    <div class="cell medium-9">
-                        <div class="grid-x grid-padding-x">
-                            <!------------ Recipe name / cook time / serves / categories ------------>
-                            <div class="cell large-auto">
-                                <span class="title-bar-title">Recipe Name</span>
-                            </div>
-                            <div class="cell large-auto">
-                                <span class="title-bar-title">Cook Time</span>
-                            </div>
-                            <div class="cell large-auto">
-                                <span class="title-bar-title">Serves</span>
-                            </div>
+                    <div class="grid-x">
+                        <div class="cell">
+                            <table id="recipe_ingredients">
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
-                        <hr>
-                        <!------------ Instruction Steps Accordian ------------>
-                        <div class="grid-x">
-                            <span class="title-bar-title">Instructions:</span>
+                    </div>
+                    <hr class="hide-for-medium">
+                </div>
+                <!------------ right side of modal ------------>
+                <div class="cell medium-9">
+                    <div class="grid-x grid-padding-x">
+                        <!------------ Recipe name / cook time / serves / categories ------------>
+                        <div class="cell large-auto">
+                            <span id="recipe_time" class="recipe_header_text">Cook Time</span>
                         </div>
-                        <div class="grid-x">
-                            <div class="cell">
-                                <ul class="accordion" id="steps_accordion" data-accordion>
-                                    <li class="accordion-item is-active" data-accordion-item>
-                                        <a class="accordion-title accordion-title-font">Mise en place</a>
-                                        <div class="accordion-content" data-tab-content>
-                                            <span class="h4">Mise en place placeholder text</span>
-                                        </div>
-                                    </li>
-                                    {% for i in range(1,5) %}
-                                    <li class="accordion-item" data-accordion-item>
-                                        <a class="accordion-title accordion-title-font">Step {{i}}</a>
-                                        <div class="accordion-content" data-tab-content>
-                                            <span class="h4">Step placeholder text</span>
-                                        </div>
-                                    </li>
-                                    {% endfor %}
-                                    <li class="accordion-item" data-accordion-item>
-                                        <a class="accordion-title accordion-title-font">Comments</a>
-                                        <div class="accordion-content" data-tab-content>
-                                            <span class="h4" id="comment_box">User comments go here</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class="cell large-auto">
+                            <span id="recipe_serves" class="recipe_header_text">Serves</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <!------------ Instruction Steps Accordian ------------>
+                    <div class="grid-x">
+                        <span class="recipe_header_text">Instructions:</span>
+                    </div>
+                    <div class="grid-x">
+                        <div class="cell">
+                            <ul class="accordion" id="steps_accordion" data-accordion>
+                                <li id="recipe_step_0" class="accordion-item is-active" data-accordion-item>
+                                    <a class="accordion-title accordion-title-font">Mise en place</a>
+                                    <div class="accordion-content" data-tab-content>
+                                        <span id="recipe_step_text_0" class="h5"></span>
+                                    </div>
+                                </li>
+                                {% for i in range(1,5) %}
+                                <li id="recipe_step_{{i}}" class="accordion-item" data-accordion-item>
+                                    <a class="accordion-title accordion-title-font">Step {{i}}</a>
+                                    <div class="accordion-content" data-tab-content>
+                                        <span id="recipe_step_text_{{i}}" class="h5"></span>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                                <li id="comment_tab" class="accordion-item" data-accordion-item>
+                                    <a class="accordion-title accordion-title-font">Comments</a>
+                                    <div class="accordion-content" data-tab-content>
+                                        <span class="h5" id="recipe_comment_box"></span>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
@@ -209,6 +202,7 @@
                             <div class="cell medium-7">
                                 <label for="measure">Measure:</label>
                                 <select id="measure" name="measure">
+                                    <option>count</option>
                                     <option>milliliters</option>
                                     <option>liters</option>
                                     <option>grams</option>
@@ -216,7 +210,6 @@
                                     <option>pounds</option>
                                     <option>teaspoons</option>
                                     <option>tablespoons</option>
-                                    <option>cups</option>
                                     <option>fluid ounces</option>
                                     <option>cups</option>
                                     <option>pints</option>
@@ -327,7 +320,7 @@
 
     <script src="{{url_for('static', filename='/js/jquery.min.js')}}"></script>
     <script src="{{ url_for('static', filename='/js/foundation.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='/js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='/js/recipe_book.js') }}"></script>
 
     <script>
         $(document).foundation();

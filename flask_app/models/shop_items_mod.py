@@ -71,8 +71,8 @@ class Item:
                     recipes.id = %(id)s;
                     """
         returned_data = MySQLConnection(cls.db).query_db(query,data)
-        ingredients={}
+        ingredients=[]
         for i in range(len(returned_data)):
-            ingredients['ing_'+str(i)] = returned_data[i]
+            ingredients.append(returned_data[i])
         return ingredients
         

@@ -74,4 +74,4 @@ class Category:
                 "cook_time" : returned_data[i]['cook_time']
             }
             recipes[str(i)] = recipe_data
-        return recipes
+        return json.dumps(recipes)
