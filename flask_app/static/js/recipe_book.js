@@ -134,7 +134,6 @@ $(function(){
                         </div>`
                     $('#recipe_box').append(new_markup)
                 });
-
             });
             
         }
